@@ -9,15 +9,15 @@ from docx import Document
 
 
 
-# Load CNN model 
+# Load our trained model 
 cnn_model = load_model("CyberTrollModel_LSTM.keras")
 
-# Load the tokenizer
+# Load the same tokenizer used for the trained model
 with open("tokenizer.pkl", "rb") as handle:
     tokenizer = pickle.load(handle)
 
 
-# Define fun messages
+# Define fun messages to choose one randomly after
 fun_messages = {
     0: [
         "Oops! That message sounds like cyber trolling! 😈",
@@ -46,8 +46,6 @@ def predict_text(text):
     pred = cnn_model.predict(processed_text)
 
     print(pred.shape, pred)  # Debugging output
-
-    # Si `pred` est un tableau 2D (e.g., [[0.7]]), on prend pred[0][0]
     if pred.ndim == 2:
         pred = pred[0][0]
     elif pred.ndim == 1:
